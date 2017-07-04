@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
+	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="localhost" port="8081" doc:name="HTTP Listener Configuration"/>
+    <sfdc:config name="Salesforce__Basic_Authentication" username="nagarjun@reddy.com" password="Arjun@1052" securityToken="amClfzXxPcRjX1zaJogwrLzU9" doc:name="Salesforce: Basic Authentication"/>
+    <db:oracle-config name="Oracle_Configuration" host="ebsr12training2.compute-a419517.oraclecloud.internal" port="1521" instance="EBSTRN1" user="apps" password="apps" doc:name="Oracle Configuration"/>
+    <flow name="maveen.sorderFlow">
+  <http:listener config-ref="HTTP_Listener_Configuration" path="/opportunity" doc:name="HTTP"/>
+        <sfdc:query config-ref="Salesforce__Basic_Authentication" query="SELECT Id, Product_Name__c,  Account.name  FROM Opportunity " doc:name="Salesforce"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+        <logger level="INFO" doc:name="Logger"/>
+        <dw:transform-message doc:name="Transform Message">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml skipNullOn="everywhere"
+---
+
+  list: { (payload map {
+      linked-hash-map : {
+      name:$.Account.Name,
+      id: $.Id,
+      Product_name: $.Product_Name__c
+     
+   }
+  })
+   }
+]]></dw:set-payload>
+        </dw:transform-message>
+
+        <logger level="INFO" doc:name="Logger" message="#[payload]"/>
+        <byte-array-to-string-transformer encoding="UTF-8" mimeType="application/xml" doc:name="Byte Array to String"/>
+        <db:stored-procedure config-ref="Oracle_Configuration" doc:name="Database">
+            <db:parameterized-query><![CDATA[call xxnew_order_create.xxenv_order_creation8(
+                                                :p_mule_input,
+                                                :x_order_cursor,
+                                                :x_error_code,                       												:x_error_message,
+                                                :x_sales_order
+                                                )]]></db:parameterized-query>
+            <db:in-param name="p_mule_input" type="LONGVARCHAR" value="#[message.payload]"/>
+            <db:out-param name="x_order_cursor" type="CURSOR"/>
+            <db:out-param name="x_sales_order" type="VARCHAR"/>
+            <db:out-param name="x_error_code" type="VARCHAR"/>
+            <db:out-param name="x_error_message" type="VARCHAR"/>
+        </db:stored-procedure>
+
+
+        <dw:transform-message doc:name="Transform Message">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload]]></dw:set-payload>
+        </dw:transform-message>
+
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        <catch-exception-strategy doc:name="Exception Handling ">
+            <logger level="INFO" doc:name="StartLog"/>
+            <set-payload value="{ &quot;errorMessage&quot; : &quot;#[exception.message]&quot;, &quot;exception&quot;:&quot;#[exception.getDetailedMessage()]&quot; }" encoding="UTF-8" mimeType="text/html" doc:name="Catch Exception"/>
+            <set-property propertyName="http.status" value="400" doc:name="http.status"/>
+            <logger level="INFO" doc:name="EndLog"/>
+        </catch-exception-strategy>
+  
+    </flow>
+</mule>
