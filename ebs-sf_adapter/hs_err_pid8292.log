@@ -1,0 +1,161 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 1048576 bytes for AllocateHeap
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (memory/allocation.inline.hpp:61), pid=8292, tid=0x000000000000055c
+#
+# JRE version:  (8.0_101-b13) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.101-b13 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000000000f0b000):  JavaThread "Unknown thread" [_thread_in_vm, id=1372, stack(0x0000000000df0000,0x0000000000ef0000)]
+
+Stack: [0x0000000000df0000,0x0000000000ef0000]
+[error occurred during error reporting (printing stack bounds), id 0xc0000005]
+
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x0000000000f0b000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=1372, stack(0x0000000000df0000,0x0000000000ef0000)]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ PSYoungGen      total 28672K, used 491K [0x00000000e0980000, 0x00000000e2980000, 0x0000000100000000)
+  eden space 24576K, 2% used [0x00000000e0980000,0x00000000e09fae20,0x00000000e2180000)
+  from space 4096K, 0% used [0x00000000e2580000,0x00000000e2580000,0x00000000e2980000)
+  to   space 4096K, 0% used [0x00000000e2180000,0x00000000e2180000,0x00000000e2580000)
+ ParOldGen       total 65536K, used 0K [0x00000000a1c00000, 0x00000000a5c00000, 0x00000000e0980000)
+  object space 65536K, 0% used [0x00000000a1c00000,0x00000000a1c00000,0x00000000a5c00000)
+ Metaspace       used 746K, capacity 4480K, committed 4480K, reserved 1056768K
+  class space    used 75K, capacity 384K, committed 384K, reserved 1048576K
+
+Card table byte_map: [0x00000000013b0000,0x00000000016b0000] byte_map_base: 0x0000000000ea2000
+
+Marking Bits: (ParMarkBitMap*) 0x000000005b63a6d0
+ Begin Bits: [0x0000000012400000, 0x0000000013b90000)
+ End Bits:   [0x0000000013b90000, 0x0000000015320000)
+
+Polling page: 0x0000000000a70000
+
+CodeCache: size=245760Kb used=328Kb max_used=328Kb free=245431Kb
+ bounds [0x0000000003400000, 0x0000000003670000, 0x0000000012400000]
+ total_blobs=58 nmethods=0 adapters=38
+ compilation: enabled
+
+Compilation events (0 events):
+No events
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (10 events):
+Event: 0.277 loading class java/lang/Short
+Event: 0.277 loading class java/lang/Short done
+Event: 0.277 loading class java/lang/Integer
+Event: 0.278 loading class java/lang/Integer done
+Event: 0.278 loading class java/lang/Long
+Event: 0.280 loading class java/lang/Long done
+Event: 0.282 loading class java/lang/NullPointerException
+Event: 0.282 loading class java/lang/NullPointerException done
+Event: 0.282 loading class java/lang/ArithmeticException
+Event: 0.282 loading class java/lang/ArithmeticException done
+
+
+Dynamic libraries:
+0x00007ff747d50000 - 0x00007ff747d87000 	C:\Program Files\Java\jre1.8.0_101\bin\javaw.exe
+0x00007ffd54db0000 - 0x00007ffd54f5c000 	C:\Windows\SYSTEM32\ntdll.dll
+0x00007ffd527d0000 - 0x00007ffd5290a000 	C:\Windows\system32\KERNEL32.DLL
+0x00007ffd524d0000 - 0x00007ffd525df000 	C:\Windows\system32\KERNELBASE.dll
+0x00007ffd50d30000 - 0x00007ffd50db8000 	C:\Windows\system32\apphelp.dll
+0x00007ffd47c60000 - 0x00007ffd47caf000 	C:\Windows\AppPatch\AppPatch64\AcGenral.DLL
+0x00007ffd53260000 - 0x00007ffd53307000 	C:\Windows\system32\msvcrt.dll
+0x00007ffd51f00000 - 0x00007ffd51f2b000 	C:\Windows\SYSTEM32\SspiCli.dll
+0x00007ffd52e20000 - 0x00007ffd52e71000 	C:\Windows\system32\SHLWAPI.dll
+0x00007ffd53310000 - 0x00007ffd53481000 	C:\Windows\system32\USER32.dll
+0x00007ffd52a30000 - 0x00007ffd52ba8000 	C:\Windows\system32\ole32.dll
+0x00007ffd53490000 - 0x00007ffd5489f000 	C:\Windows\system32\SHELL32.dll
+0x00007ffd51700000 - 0x00007ffd5171e000 	C:\Windows\SYSTEM32\USERENV.dll
+0x00007ffd52e80000 - 0x00007ffd52f25000 	C:\Windows\system32\ADVAPI32.dll
+0x00007ffd49540000 - 0x00007ffd4955b000 	C:\Windows\SYSTEM32\MPR.dll
+0x00007ffd52690000 - 0x00007ffd527c7000 	C:\Windows\system32\RPCRT4.dll
+0x00007ffd52920000 - 0x00007ffd52977000 	C:\Windows\SYSTEM32\sechost.dll
+0x00007ffd54bd0000 - 0x00007ffd54da6000 	C:\Windows\SYSTEM32\combase.dll
+0x00007ffd54a80000 - 0x00007ffd54bc4000 	C:\Windows\system32\GDI32.dll
+0x00007ffd52120000 - 0x00007ffd52134000 	C:\Windows\SYSTEM32\profapi.dll
+0x00007ffd50740000 - 0x00007ffd507df000 	C:\Windows\SYSTEM32\SHCORE.dll
+0x00007ffd52fd0000 - 0x00007ffd53004000 	C:\Windows\system32\IMM32.DLL
+0x00007ffd53110000 - 0x00007ffd53249000 	C:\Windows\system32\MSCTF.dll
+0x00007ffd4fda0000 - 0x00007ffd4fffa000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.9600.17031_none_6242a4b3ecbb55a1\COMCTL32.dll
+0x000000005aab0000 - 0x000000005ab82000 	C:\Program Files\Java\jre1.8.0_101\bin\msvcr100.dll
+0x000000005ae20000 - 0x000000005b6ba000 	C:\Program Files\Java\jre1.8.0_101\bin\server\jvm.dll
+0x00007ffd4acc0000 - 0x00007ffd4acc9000 	C:\Windows\SYSTEM32\WSOCK32.dll
+0x00007ffd4d7a0000 - 0x00007ffd4d7bf000 	C:\Windows\SYSTEM32\WINMM.dll
+0x00007ffd4cfe0000 - 0x00007ffd4cfea000 	C:\Windows\SYSTEM32\VERSION.dll
+0x00007ffd53020000 - 0x00007ffd53027000 	C:\Windows\system32\PSAPI.DLL
+0x00007ffd53090000 - 0x00007ffd530e8000 	C:\Windows\system32\WS2_32.dll
+0x00007ffd4d760000 - 0x00007ffd4d78a000 	C:\Windows\SYSTEM32\WINMMBASE.dll
+0x00007ffd53250000 - 0x00007ffd53259000 	C:\Windows\system32\NSI.dll
+0x00007ffd525e0000 - 0x00007ffd5262a000 	C:\Windows\SYSTEM32\cfgmgr32.dll
+0x00007ffd50fb0000 - 0x00007ffd50fd6000 	C:\Windows\SYSTEM32\DEVOBJ.dll
+0x000000005ae10000 - 0x000000005ae1f000 	C:\Program Files\Java\jre1.8.0_101\bin\verify.dll
+0x000000005ade0000 - 0x000000005ae09000 	C:\Program Files\Java\jre1.8.0_101\bin\java.dll
+0x000000005adc0000 - 0x000000005add6000 	C:\Program Files\Java\jre1.8.0_101\bin\zip.dll
+
+VM Arguments:
+jvm_args: -XX:PermSize=128M -XX:MaxPermSize=256M -Dmule.home=C:\Users\Guest\AnypointStudio\workspace\.mule -Djava.endorsed.dirs=C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\endorsed -Djava.net.preferIPv4Stack=TRUE -Dmvel2.disable.jit=TRUE -Dosgi.dev=true -Dmule.verbose.exceptions=true -Dmule.plugins.dir=C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\plugins -Dmule.agent.enabled=false -Dmule.forceConsoleLog -Dlog4j.debug=true -Danypoint.platform.gatekeeper=false -Dosgi.instance.area=file:\C:\Users\Guest\AnypointStudio\workspace -Dfile.encoding=Cp1252 
+java_command: org.mule.tooling.server.application.ApplicationDeployer
+java_class_path (initial): C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\tooling\tooling-support-3.8.0.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\commons-cli-1.2.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\commons-codec-1.9.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\disruptor-3.3.0.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\jcl-over-slf4j-1.7.7.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\license-utils-gw-3.8.0.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\licm-studio-1.1.4.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\log4j-1.2-api-2.5.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\log4j-api-2.5.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\log4j-core-2.5.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\log4j-jcl-2.5.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\log4j-jul-2.5.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\log4j-slf4j-impl-2.5.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\mule-module-boot-ee-3.8.0.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\oscore-2.2.4.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\propertyset-1.3.jar;C:\AnypointStudio\plugins\org.mule.tooling.server.3.8.0.ee_6.0.0.201605131244\mule\lib\boot\slf4j-api-1.7.7.jar;C:\AnypointStudio\plugins\org.mule.tool
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=C:/Program Files/Java/jre1.8.0_101/bin/server;C:/Program Files/Java/jre1.8.0_101/bin;C:/Program Files/Java/jre1.8.0_101/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\DevSuiteHome_1\jdk\jre\bin\classic;C:\DevSuiteHome_1\jdk\jre\bin;C:\DevSuiteHome_1\jdk\jre\bin\client;C:\DevSuiteHome_1\jlib;C:\DevSuiteHome_1\bin;C:\DevSuiteHome_1\jre\1.4.2\bin\client;C:\DevSuiteHome_1\jre\1.4.2\bin;C:\oraclexe\app\oracle\product\10.2.0\server\bin;C:\orant\bin;C:\Oracle\product\11.2.0\client_1\bin;c:\Program Files (x86)\Intel\iCLS Client\;c:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Windows Live\Shared;C:\orant\jdk\bin;C:\Program Files (x86)\Skype\Phone\;C:\AnypointStudio;
+USERNAME=Guest
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 69 Stepping 1, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 8.1 , 64 bit Build 9600 (6.3.9600.17056)
+
+CPU:total 4 (2 cores per cpu, 2 threads per core) family 6 model 69 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2
+
+Memory: 4k page, physical 6169560k(540464k free), swap 10265560k(5692k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.101-b13) for windows-amd64 JRE (1.8.0_101-b13), built on Jun 22 2016 01:21:29 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Mon Jul 25 13:01:35 2016
+elapsed time: 0 seconds (0d 0h 0m 0s)
+

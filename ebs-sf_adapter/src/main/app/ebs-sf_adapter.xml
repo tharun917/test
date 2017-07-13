@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="localhost" port="8089" doc:name="HTTP Listener Configuration"/>
+    <db:oracle-config name="Oracle_Configuration" host="ebsr12training2.compute-a419517.oraclecloud.internal" port="1521" instance="EBSTRN1" user="apps" password="apps" doc:name="Oracle Configuration"/>
+    <sfdc:config name="Salesforce__Basic_Authentication" username="tharun@xyz.com" password="Yadav@917" securityToken="a0QQlQHTg4jzPDBHzNaM5A5Gn" doc:name="Salesforce: Basic Authentication"/>
+    <flow name="ebs-sf_adapterFlow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/ebs2sfdc" doc:name="HTTP"/>
+        <sfdc:query config-ref="Salesforce__Basic_Authentication" query="dsql:SELECT AccountNumber,BillingCity,BillingCountry,BillingPostalCode,BillingState,BillingStreet,Name FROM Account ORDER BY CreatedDate DESc" doc:name="Salesforce"/>
+        <dw:transform-message metadata:id="927266b5-0cd1-4ea8-aa17-a9492fa1f180" doc:name="Transform Message">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload map ((payload01 , indexOfPayload01) -> {
+	accountName: payload01.AccountNumber,
+	billingCity: payload01.BillingCity,
+	billingPostalCode: payload01.BillingPostalCode,
+	billingState: payload01.BillingState,
+	billingStreet: payload01.BillingStreet,
+	country: payload01.BillingCountry,
+	name1: payload01.Name
+} as :object {
+	class : "com.ennvee.mulesoft.Account"
+})]]></dw:set-payload>
+        </dw:transform-message>
+        <foreach collection="#[payload]" doc:name="For Each">
+            <db:stored-procedure config-ref="Oracle_Configuration" streaming="true" doc:name="Database">
+                <db:parameterized-query><![CDATA[call xxenv_create_cust_prc (:p_account_name,
+                           :p_organization_name,
+                          :p_country,
+                          :p_address1,
+                          :p_city,
+                          :p_postal_code,
+                          :p_state)]]></db:parameterized-query>
+                <db:in-param name="p_account_name" type="VARCHAR" value="#[payload.getAccountName()]"/>
+                <db:in-param name="p_organization_name" type="VARCHAR" value="#[payload.getName1()]"/>
+                <db:in-param name="p_country" type="VARCHAR" value="#[payload.getCountry()]"/>
+                <db:in-param name="p_address1" type="VARCHAR" value="#[payload.getBillingStreet()]"/>
+                <db:in-param name="p_city" type="VARCHAR" value="#[payload.getBillingCity()]"/>
+                <db:in-param name="p_postal_code" type="VARCHAR" value="#[payload.getBillingPostalCode()]"/>
+                <db:in-param name="p_state" type="VARCHAR" value="#[payload.getBillingState()]"/>
+            </db:stored-procedure>
+        </foreach>
+        
+       
+        <logger level="INFO" doc:name="Logger"/>
+    </flow>
+</mule>
